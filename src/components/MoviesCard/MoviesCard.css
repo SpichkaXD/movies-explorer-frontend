@@ -6,6 +6,7 @@
     background-color: #222222;
     justify-content: start;
     border-radius: 10px;
+    list-style: none;
 }
 
 .movie-card__image {

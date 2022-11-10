@@ -1,5 +1,5 @@
 .preloader {
-    display: block;
+    display: none;
     position: relative;
     width: 150px;
     height: 150px;

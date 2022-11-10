@@ -4,14 +4,14 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 const MoviesCardList = (props) => {
     const cards = props.cards;
     return (
-        <div className="movies-cardlist__border">
-            <div className="movies-cardlist">
+        <section className="movies-cardlist__border">
+            <ul className="movies-cardlist">
                 {cards.map((card) => (
                     <MoviesCard card={card} key={card._id} />
                 ))}
-            </div>
-            <button className="movies-cardlist__button">Ещё</button>
-        </div>
+            </ul>
+            <button type="button" className="movies-cardlist__button">Ещё</button>
+        </section>
     );
 };
 

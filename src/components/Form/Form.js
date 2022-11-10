@@ -4,7 +4,7 @@ import logo from "../../images/logo.svg";
 
 const Form = (props) => {
     return (
-        <div className="form">
+        <section className="form">
             <Link className="link" to="/">
                 <img className="form__logo" src={logo} alt="логтип"></img>
             </Link>
@@ -42,7 +42,7 @@ const Form = (props) => {
                     required
                 ></input>
                 <span className="form__error">Что-то пошло не так...</span>
-                <button className="form__button link">{props.button}</button>
+                <button type="submit" className="form__button link">{props.button}</button>
             </form>
             <div className="form__bottom">
                 <p className="form__bottom_text">{props.text}</p>
@@ -50,7 +50,7 @@ const Form = (props) => {
                     {props.link}
                 </Link>
             </div>
-        </div>
+        </section>
     );
 };
 

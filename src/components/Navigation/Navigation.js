@@ -6,7 +6,7 @@ const Navigation = (props) => {
     return (
         <nav className={`navigation ${props.isOpen ? "navigation_opened" : ""}`}>
             <div className="navigation__overlay"></div>
-            <button className="navigation__close" onClick={props.onClose}>
+            <button type="button" className="navigation__close" onClick={props.onClose}>
             </button>
             <NavLink
                 exact

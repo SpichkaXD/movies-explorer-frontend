@@ -4,7 +4,7 @@ import Portfolio from '../Portfolio/Portfolio';
 
 const AboutMe = () => {
     return (
-        <div className="aboutme" id="student">
+        <section className="aboutme" id="student">
             <h2 className="aboutme__header">Студент</h2>
             <div className="aboutme__description">
                 <img className="aboutme__description-photo" src={avatar} alt="avatar"></img>
@@ -32,7 +32,7 @@ const AboutMe = () => {
                 </div>
             </div>
             <Portfolio/>
-        </div>
+        </section>
     );
 };
 

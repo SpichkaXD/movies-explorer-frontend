@@ -7,13 +7,13 @@ import AboutMe from "../AboutMe/AboutMe";
 
 const Main = () => {
     return (
-        <div>
+        <main>
             <Promo/>
             <NavTab/>
             <AboutProject/>
             <Techs/>
             <AboutMe/>
-        </div>
+        </main>
     );
 };
 

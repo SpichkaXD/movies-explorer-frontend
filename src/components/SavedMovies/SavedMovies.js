@@ -5,10 +5,10 @@ import { savedMovies } from "../../utils/constants";
 
 const SavedMovies = () => {
     return (
-        <div>
+        <main>
             <SearchForm />
             <MoviesCardList cards={savedMovies} />
-        </div>
+        </main>
     );
 };
 

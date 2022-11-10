@@ -6,11 +6,11 @@ import { movies } from "../../utils/constants";
 
 const Movies = () => {
     return (
-        <div>
+        <main>
             <SearchForm />
             <Preloader />
             <MoviesCardList cards={movies} />
-        </div>
+        </main>
     );
 };
 

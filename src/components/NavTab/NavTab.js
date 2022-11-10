@@ -1,7 +1,7 @@
 import React from "react";
 const NavTab = () => {
     return (
-        <div className="navtab">
+        <section className="navtab">
             <a className="navtab__link" href="#about-project">
                 О проекте
             </a>
@@ -11,7 +11,7 @@ const NavTab = () => {
             <a className="navtab__link" href="#student">
                 Студент
             </a>
-        </div>
+        </section>
     );
 };
 

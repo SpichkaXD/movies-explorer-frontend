@@ -45,7 +45,7 @@ function Header() {
                             Аккаунт
                             <img className="header__user" src={user} alt="юзер"></img>
                         </Link>
-                        <button className="header__menu link" onClick={openMenu}>
+                        <button type="button" className="header__menu link" onClick={openMenu}>
                             <img src={menu} alt="меню"></img>
                         </button>
                     </nav>

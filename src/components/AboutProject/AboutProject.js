@@ -1,7 +1,7 @@
 import React from "react";
 const AboutProject = () => {
     return (
-        <div className="project" id="about-project">
+        <section className="project" id="about-project">
             <h2 className="project__header">О проекте</h2>
             <div className="project__description">
                 <h3 className="project__description-title">Дипломный проект включал 5 этапов</h3>
@@ -20,7 +20,7 @@ const AboutProject = () => {
                 <p className="project__content-caption">Back-end</p>
                 <p className="project__content-caption">Front-end</p>
             </div>
-        </div>
+        </section>
     );
 };
 
