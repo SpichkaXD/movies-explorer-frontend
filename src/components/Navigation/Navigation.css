@@ -1,0 +1,119 @@
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 70px 18px 70px;
+}
+
+.navigation_blue {
+    background-color: #073042;
+}
+
+.navigation__menu {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.naviation__links {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+}
+
+.naviation__link {
+    margin: 0;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    text-align: right;
+    color: #ffffff;
+}
+
+.navigation__link_active {
+    font-weight: 500;
+    margin: 0;
+    text-decoration: none;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    text-align: right;
+    color: #ffffff;
+}
+
+.navigation__account-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100px;
+    height: 30px;
+    gap: 14px;
+    padding-left: 30px;
+}
+
+.navigation__login {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    color: #ffffff;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    margin: 0;
+    text-decoration: none;
+}
+
+.navigation__login-active {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    color: #ffffff;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    margin: 0;
+    text-decoration: none;
+}
+
+.navigation__account {
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    background: #313131 url("../../images/userLogo.svg") no-repeat center;
+}
+
+@media screen and (max-width: 768px) {
+    .naviation__links {
+        display: none;
+    }
+    .navigation__menu {
+        display: block;
+    }
+    .navigation__account-data {
+        display: none;
+    }
+    .navigation__hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .navigation {
+        padding: 18px 30px;
+    }
+
+}
+
+
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+    .navigation {
+        padding: 18px 14px;
+    }
+}
