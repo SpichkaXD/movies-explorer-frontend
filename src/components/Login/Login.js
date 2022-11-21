@@ -43,7 +43,6 @@ function Login({ onLogin, loginError }) {
                                 value={values.email || ""}
                                 onChange={handleChange}
                                 required
-                                autocomplete="off"
                             />
                             <Error errorMessage={errors.email} />
                         </label>
@@ -59,7 +58,6 @@ function Login({ onLogin, loginError }) {
                                 value={values.password || ""}
                                 minLength="4"
                                 required
-                                autocomplete="off"
                             />
                             <Error errorMessage={errors.password} />
                         </label>
