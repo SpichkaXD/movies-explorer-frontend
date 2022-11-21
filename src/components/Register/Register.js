@@ -43,7 +43,6 @@ function Register({ registerError, onRegister }) {
                                 value={values.name || ""}
                                 onChange={handleChange}
                                 required
-                                autocomplete="off"
                             />
                             <Error errorMessage={errors.name} />
                         </label>
@@ -59,7 +58,6 @@ function Register({ registerError, onRegister }) {
                                 pattern="^\S+@\S+\.\S+$"
                                 onChange={handleChange}
                                 required
-                                autocomplete="off"
                             />
                             <Error errorMessage={errors.email} />
                         </label>
@@ -75,7 +73,6 @@ function Register({ registerError, onRegister }) {
                                 minLength="4"
                                 onChange={handleChange}
                                 required
-                                autocomplete="off"
                             />
                             <Error errorMessage={errors.password} />
                         </label>
