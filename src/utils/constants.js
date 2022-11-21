@@ -1,6 +1,6 @@
 export const SHORT_MOVIE = 40;
 
-export const MAIN_LINK = 'http://api.spichka-diplom.nomoredomains.icu';
+export const MAIN_LINK = 'https://api.spichka-diplom.nomoredomains.icu';
 export const MOVIE_LINK = 'https://api.nomoreparties.co';
 
 export const SCREEN_SIZE_MOBILE = 480;
