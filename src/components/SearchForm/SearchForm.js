@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Checkbox from "../Checkbox/Checkbox";
 import { useLocation } from "react-router-dom";
 
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import useFormWithValidation from "../../hooks/useValidationForm";
 
 import "./SearchForm.css";
 
-function SearchForm({ onSearch }) {
+function SearchForm({ handleSearchSubmit }) {
     const { handleChange } = useFormWithValidation();
     const location = useLocation();
 
@@ -32,28 +32,27 @@ function SearchForm({ onSearch }) {
         }
     }, [location.pathname]);
 
-    //чекбокс
     function toggleCheckbox(checkboxStatus) {
         setCheckboxStatus(checkboxStatus);
-        onSearch(request, checkboxStatus);
+        handleSearchSubmit(request, checkboxStatus);
     }
 
-    function handleChangeCheckbox(evt) {
-        toggleCheckbox(evt.target.checked);
+    function handleRequestChange(e) {
+        handleChange(e);
+        setRequest(e.target.value);
     }
 
-    function handleRequestChange(evt) {
-        handleChange(evt);
-        setRequest(evt.target.value);
+    function handleChangeCheckbox(e) {
+        toggleCheckbox(e.target.checked);
     }
 
-    function handleSubmit(evt) {
-        evt.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
         if (!request) {
             setNoSearchResult("Нужно ввести ключевое слово");
             console.log("Нужно ввести ключевое слово");
         }
-        onSearch(request, checkboxStatus);
+        handleSearchSubmit(request, checkboxStatus);
     }
 
     return (
@@ -72,7 +71,7 @@ function SearchForm({ onSearch }) {
                     Поиск
                 </button>
             </div>
-            <Checkbox checkboxStatus={checkboxStatus} onChangeCheckbox={handleChangeCheckbox} />
+            <Checkbox checkboxStatus={checkboxStatus} handleShortFilms={handleChangeCheckbox} />
         </form>
     );
 }

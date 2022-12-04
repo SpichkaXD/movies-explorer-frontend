@@ -15,7 +15,7 @@ function SavedMovies({ savedMovies, onDeleteMovie }) {
     const [loading, setLoading] = useState(false);
     const [isSearchDone, setIsSearchDone] = useState(false);
 
-    function handleSearchSavedMovie(request, checkboxStatus) {
+    function handleSearch(request, checkboxStatus) {
         startLoading();
 
         const searchResult = shortsFilter(savedMovies, request, checkboxStatus);
@@ -40,7 +40,7 @@ function SavedMovies({ savedMovies, onDeleteMovie }) {
     return (
         <main className='savedMovies'>
             <SearchForm
-                onSearch={handleSearchSavedMovie}
+                handleSearchSubmit={handleSearch}
             />
             {loading ?
                 <div className="savedMovies__preloader">

@@ -2,52 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import useFormWithValidation from '../../hooks/useValidationForm';
 
 import './Profile.css'
 
 function Profile({ onUpdateUser, onSignOut, profileMessage }) {
-    const { values, setValues, errors, setErrors, handleChange, isValid, setIsValid } = useFormWithValidation();
-
-    const [profileMessageText, setProfileMessageText] = useState('');
+    const { values, setValues, errors, setErrors, isValid, setIsValid, handleChange, } = useFormWithValidation();
+    const [errorMessage, setErrorMessage] = useState('');
     const location = useLocation();
 
-    // Подписка на контекст
     const currentUser = React.useContext(CurrentUserContext);
 
-    //изменение имени
-    const handleChangeName = (evt) => {
-        if (evt.target.value === currentUser.name || evt.target.value === currentUser.email) {
+    const handleChangeName = (e) => {
+        if (e.target.value === currentUser.name || e.target.value === currentUser.email) {
             setIsValid(false);
             setErrors({
                 errors: errors.name,
-                [evt.target.name]: 'Имя должно отличаться от установленного'
+                [e.target.name]: 'Имя должно отличаться от установленного'
             })
         } else {
-            handleChange(evt);
+            handleChange(e);
         }
     };
 
-    //изменение почты
-    const handleChangeEmail = (evt) => {
-        if (evt.target.value === currentUser.name || evt.target.value === currentUser.email) {
+    const handleChangeEmail = (e) => {
+        if (e.target.value === currentUser.name || e.target.value === currentUser.email) {
             setIsValid(false);
             setErrors({
                 errors: errors.name,
-                [evt.target.name]: 'Email должен отличаться от установленного'
+                [e.target.name]: 'Email должен отличаться от установленного'
             });
         } else {
-            handleChange(evt);
+            handleChange(e);
         }
     };
 
-    //сообщение об ошибке
     useEffect(() => {
-        setProfileMessageText(profileMessage);
+        setErrorMessage(profileMessage);
     }, [profileMessage]);
 
     useEffect(() => {
-        setProfileMessageText('');
+        setErrorMessage('');
     }, [location]);
 
     useEffect(() => {
@@ -57,9 +52,8 @@ function Profile({ onUpdateUser, onSignOut, profileMessage }) {
         });
     }, [currentUser, setValues]);
 
-    //сохранить
-    function handleSubmit(evt) {
-        evt.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
         onUpdateUser({
             name: values.name,
             email: values.email,
@@ -109,7 +103,7 @@ function Profile({ onUpdateUser, onSignOut, profileMessage }) {
                                 required />
                         </label>
                         <span className='profile__error'>{errors.email || ''}</span>
-                        <span className="profile__error-text">{profileMessageText}</span>
+                        <span className="profile__error-text">{errorMessage}</span>
                     </fieldset>
 
                     <div className='profile__nav'>

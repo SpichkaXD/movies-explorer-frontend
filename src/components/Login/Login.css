@@ -27,7 +27,7 @@
     flex-direction: column;
 }
 
-.login__field {
+.login__area {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -35,7 +35,7 @@
     padding-bottom: 191px;
 }
 
-.login__field:last-of-type {
+.login__area:last-of-type {
     gap: 0;
 }
 
@@ -140,7 +140,7 @@
         text-align: center;
     }
 
-    .login__field {
+    .login__area {
         padding-bottom: 281px;
     }
 

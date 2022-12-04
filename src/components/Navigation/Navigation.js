@@ -1,28 +1,27 @@
 import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
-import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
+import Hamburger from "../Hamburger/Hamburger";
 import logo from "../../images/logo.svg";
 import user from "../../images/userLogo.svg";
 import "./Navigation.css";
 
 function Navigation({ loggedIn }) {
-    const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
+    const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
     const location = useLocation();
 
-    const openHamburgerMenu = () => {
-        setIsHamburgerMenuOpen(true);
+    const openHamburger = () => {
+        setIsHamburgerOpen(true);
     };
 
-    const closeHamburgerMenu = () => {
-        setIsHamburgerMenuOpen(false);
+    const closeHamburger = () => {
+        setIsHamburgerOpen(false);
     };
 
-    //close by Escape
     React.useEffect(() => {
-        const closeByEsc = (evt) => {
-            if (evt.key === "Escape") {
-                closeHamburgerMenu();
+        const closeByEsc = (e) => {
+            if (e.key === "Escape") {
+                closeHamburger();
             }
         };
         document.addEventListener("keydown", closeByEsc);
@@ -37,10 +36,10 @@ function Navigation({ loggedIn }) {
                         <Link to="/">
                             <img className="header__logo" src={ logo } alt="Логотип на с буквой s на зеленом фоне" />
                         </Link>
-                        <HamburgerMenu
-                            isOpen={isHamburgerMenuOpen}
-                            onClick={openHamburgerMenu}
-                            onClose={closeHamburgerMenu}
+                        <Hamburger
+                            isOpen={isHamburgerOpen}
+                            onClick={openHamburger}
+                            onClose={closeHamburger}
                         />
                     </div>
 

@@ -1,43 +1,43 @@
 import React from 'react';
 
 import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader'
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 import './Movies.css';
 
 function Movies({
-    onSearch,
+    handleSearchSubmit,
     loading,
-    isSearchDone,
+    isSearchSuccess,
     searchStatus,
     renderedMovies,
     savedMovies,
-    onSaveMovie,
+    onAddMovie,
     onDeleteMovie,
-    moreLoadingButton,
+    handleShowMore,
     onRenderMovies,
 }) {
 
     return (
         <main className='movies'>
             <SearchForm
-                onSearch={onSearch} />
+                handleSearchSubmit={handleSearchSubmit} />
             {loading ?
                 <div className="movies__preloader">
                     <Preloader />
                 </div>
-                : isSearchDone
+                : isSearchSuccess
                     ? renderedMovies.length > 0
                         ? <MoviesCardList
                             movies={renderedMovies}
                             savedMovies={savedMovies}
-                            onSaveMovie={onSaveMovie}
+                            onAddMovie={onAddMovie}
                             onDeleteMovie={onDeleteMovie}
                             loading={loading}
-                            isSearchDone={isSearchDone}
+                            isSearchSuccess={isSearchSuccess}
                             onRenderMovies={onRenderMovies}
-                            moreLoadingButton={moreLoadingButton}
+                            handleShowMore={handleShowMore}
                         />
                         : (!loading ?
                             <div className="movies__container">

@@ -7,15 +7,15 @@ import './MoviesCardList.css';
 function MoviesCardList({
     movies,
     savedMovies,
-    onSaveMovie,
+    onAddMovie,
     onDeleteMovie,
     loading,
     isSearchDone,
     onRenderMovies,
-    moreLoadingButton,
+    handleShowMore,
 }) {
 
-    const moreLoadingButtonClass = moreLoadingButton ? `movieCardList__button` : `movieCardList__button-hidden`;
+    const handleShowMoreClass = handleShowMore ? `movieCardList__button` : `movieCardList__button-hidden`;
 
     return (
         <section className='movieCardList'>
@@ -25,7 +25,7 @@ function MoviesCardList({
                         movie={movie}
                         key={movie._id || movie.id}
                         savedMovies={savedMovies}
-                        onSaveMovie={onSaveMovie}
+                        onAddMovie={onAddMovie}
                         onDeleteMovie={onDeleteMovie}
                     />
                 ))}
@@ -34,7 +34,7 @@ function MoviesCardList({
                 ? <>
                     <button
                         onClick={onRenderMovies}
-                        className={moreLoadingButtonClass}
+                        className={handleShowMoreClass}
                         aria-label='Загрузить ещё'
                         type='button'>Ещё</button>
                 </>

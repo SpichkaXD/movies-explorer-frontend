@@ -2,44 +2,40 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 import "./MoviesCard.css";
-import deleteFilmButton from "../../images/deleteFilmButton.svg";
 import saveButton from "../../images/saveButton.svg";
 import notSaveButton from "../../images/notSaveButton.svg";
+import deleteFilmButton from "../../images/deleteFilmButton.svg";
 
-import { MOVIE_LINK } from "../../utils/constants";
+import { beatfilmMoviesURL } from "../../utils/constants";
 
-const MoviesCard = ({ movie, savedMovies, onSaveMovie, onDeleteMovie }) => {
+const MoviesCard = ({ movie, savedMovies, onAddMovie, onDeleteMovie }) => {
     const location = useLocation();
     const savedMovie = savedMovies.find((m) => m.movieId === movie.id);
 
     const isSaved = movie.id ? savedMovie : location.pathname === "/saved-movies";
 
-    //длительность фильма
-    const hours = Math.floor(movie.duration / 60);
-    const minutes = movie.duration % 60;
-
-    //открыть фильм в новом окне
     function onClickLink(url) {
         return () => window.open(url, "_blank", "noopener noreferrer");
     }
 
-    //удалить фильм
+    const hours = Math.floor(movie.duration / 60);
+    const minutes = movie.duration % 60;
+
     function handleDeleteMovie() {
         onDeleteMovie(movie);
     }
 
-    //сохранить фильм
     function handleSaveMovie() {
         if (!savedMovie) {
-            onSaveMovie({
+            onAddMovie ({
                 country: String(movie.country),
                 director: movie.director,
                 duration: movie.duration,
                 year: movie.year,
                 description: movie.description,
-                image: `${MOVIE_LINK}${movie.image.url}`,
+                image: `${beatfilmMoviesURL}${movie.image.url}`,
                 trailerLink: movie.trailerLink,
-                thumbnail: `${MOVIE_LINK}${movie.image.formats.thumbnail.url}`,
+                thumbnail: `${beatfilmMoviesURL}${movie.image.formats.thumbnail.url}`,
                 movieId: movie.id,
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
@@ -54,7 +50,7 @@ const MoviesCard = ({ movie, savedMovies, onSaveMovie, onDeleteMovie }) => {
             <a className="moviesCard__link" href={movie.trailerLink} onClick={onClickLink}>
                 <img
                     className="moviesCard__poster"
-                    src={typeof movie.image === "string" ? movie.image : `${MOVIE_LINK}${movie.image.url}`}
+                    src={typeof movie.image === "string" ? movie.image : `${beatfilmMoviesURL}${movie.image.url}`}
                     alt={`Постер фильма ${movie.nameRU}`}
                 />
             </a>

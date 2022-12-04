@@ -13,12 +13,21 @@ class MainApi {
         }
     }
 
-    _checkServerResponse(res) {
+    _handleResponse(res) {
         if (res.ok) {
             return res.json();
         } else {
             return Promise.reject(`Ошибка: ${res.status}`);
         }
+    }
+    
+    login = ({ email, password }) => {
+        return fetch(`${this._baseUrl}/signin`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify({ email, password })
+        })
+            .then(this._handleResponse)
     }
 
     register = ({ name, email, password }) => {
@@ -30,42 +39,7 @@ class MainApi {
             },
             body: JSON.stringify({ name, email, password })
         })
-            .then(this._checkServerResponse)
-    }
-
-    authorize = ({ email, password }) => {
-        return fetch(`${this._baseUrl}/signin`, {
-            method: 'POST',
-            headers: this._headers,
-            body: JSON.stringify({ email, password })
-        })
-            .then(this._checkServerResponse)
-    }
-
-    getUserInfo = () => {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'GET',
-            headers: this._headers,
-        })
-            .then(this._checkServerResponse)
-    }
-
-    editProfile({ name, email }) {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: "PATCH",
-            headers: this._headers,
-            body: JSON.stringify({ name, email })
-        })
-            .then(this._checkServerResponse)
-    }
-
-    saveMovie(data) {
-        return fetch(`${this._baseUrl}/movies`, {
-            method: "POST",
-            headers: this._headers,
-            body: JSON.stringify(data)
-        })
-            .then(this._checkServerResponse)
+            .then(this._handleResponse)
     }
 
     getSavedMovies() {
@@ -73,7 +47,16 @@ class MainApi {
             method: 'GET',
             headers: this._headers,
         })
-            .then(this._checkServerResponse)
+            .then(this._handleResponse)
+    }
+
+    addsaveMovie(data) {
+        return fetch(`${this._baseUrl}/movies`, {
+            method: "POST",
+            headers: this._headers,
+            body: JSON.stringify(data)
+        })
+            .then(this._handleResponse)
     }
 
     deleteMovie(id) {
@@ -81,7 +64,24 @@ class MainApi {
             method: "DELETE",
             headers: this._headers,
         })
-            .then(this._checkServerResponse)
+            .then(this._handleResponse)
+    }
+
+    getUserInfo = () => {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
+            headers: this._headers,
+        })
+            .then(this._handleResponse)
+    }
+
+    updateUser({ name, email }) {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: "PATCH",
+            headers: this._headers,
+            body: JSON.stringify({ name, email })
+        })
+            .then(this._handleResponse)
     }
 }
 

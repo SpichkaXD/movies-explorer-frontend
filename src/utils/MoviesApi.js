@@ -1,11 +1,11 @@
-import { MOVIE_LINK } from './constants';
+import { beatfilmMoviesURL } from "./constants";
 
 class MoviesApi {
     constructor({ baseUrl }) {
         this._baseUrl = baseUrl;
     }
 
-    _checkServerResponse(res) {
+    _handleResponse(res) {
         if (res.ok) {
             return res.json();
         } else {
@@ -16,16 +16,16 @@ class MoviesApi {
     getMovies() {
         return fetch(`${this._baseUrl}/beatfilm-movies`, {
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                // credentials: "include",
             },
-        })
-            .then(this._checkServerResponse)
+        }).then(res => this._handleResponse(res));
     }
 }
 
 const moviesApi = new MoviesApi({
-    baseUrl: `${MOVIE_LINK}`,
+    baseUrl: `${ beatfilmMoviesURL }`,
 });
 
 export default moviesApi;

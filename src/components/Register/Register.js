@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import "./Register.css";
 import Error from "../Error/Error.js";
 import logo from "../../images/logo.svg";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import useValidationForm from "../../hooks/useValidationForm";
 
 function Register({ registerError, onRegister }) {
-    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+    const { values, handleChange, resetForm, errors, isValid } = useValidationForm();
 
     //сброс фоормы
     useEffect(() => {

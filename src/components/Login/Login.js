@@ -3,21 +3,20 @@ import { Link } from "react-router-dom";
 
 import "./Login.css";
 import logo from "../../images/logo.svg";
-import useFormWithValidation from "../../hooks/useFormWithValidation";
+import useValidationForm from "../../hooks/useValidationForm";
 import Error from "../Error/Error";
 
 function Login({ onLogin, loginError }) {
-    const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+    const { values, resetForm, handleChange, errors, isValid } = useValidationForm();
 
-    //сброс фоормы
+    function handleSubmit(e) {
+        e.preventDefault();
+        onLogin(values);
+    }
+
     useEffect(() => {
         resetForm("", "", false);
     }, [resetForm]);
-
-    function handleSubmit(evt) {
-        evt.preventDefault();
-        onLogin(values);
-    }
 
     return (
         <section className="login">
@@ -31,13 +30,13 @@ function Login({ onLogin, loginError }) {
                 <h2 className="login__welcome">Рады видеть!</h2>
 
                 <form className="login__form" name="login-form" onSubmit={handleSubmit}>
-                    <div className="login__field">
+                    <div className="login__area">
                         <label>
                             <span className="login__text">E-mail</span>
                             <input
                                 className="login__input"
-                                type="email"
                                 name="email"
+                                type="email"
                                 placeholder="E-mail"
                                 pattern="^\S+@\S+\.\S+$"
                                 value={values.email || ""}
@@ -51,8 +50,8 @@ function Login({ onLogin, loginError }) {
                             <span className="login__text">Пароль</span>
                             <input
                                 className="login__input"
-                                type="password"
                                 name="password"
+                                type="password"
                                 placeholder="Пароль"
                                 onChange={handleChange}
                                 value={values.password || ""}

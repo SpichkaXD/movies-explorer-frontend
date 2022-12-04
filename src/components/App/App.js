@@ -2,97 +2,72 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 
-//компоненты
+import moviesApi from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi";
+
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
-
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import shortsFilter from "../../utils/ShortsFilter";
-
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-
 import PageNotFound from "../PageNotFound/PageNotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-//хук
 import useCurrentWidth from "../../hooks/useCurrentWidth";
 
-//константы
 import {
-    SCREEN_SIZE_MOBILE,
-    INITIAL_MOVIES_MOBILE,
-    LOAD_MORE_TABLET_MOBILE,
-    SCREEN_SIZE_TABLET,
-    INITIAL_MOVIES_TABLET,
-    SCREEN_SIZE_DESTOP,
-    INITIAL_MOVIES_DESTOP,
-    LOAD_MORE_DESKTOP,
+    SIZE_MOB,
+    SIZE_DES,
+    SIZE_TAB,
+    MOVIES_DES,
+    MOVIES_MOB,
+    MOVIES_TAB,
+    LOAD_TAB_MOB,
+    LOAD_DES,
 } from "../../utils/constants";
 
-//Api
-import moviesApi from "../../utils/MoviesApi";
-import mainApi from "../../utils/MainApi";
+
 
 function App() {
-    //все фильмы - по умолчанию пустой массив
     const [renderedMovies, setRenderedMovies] = useState([]);
-    const [initialMovies, setInitialMovies] = useState([]);
+    const [primaryMovies, setPrimaryMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [firstMovies, setFirstMovies] = useState(0);
-    const [moreMovies, setMoreMovies] = useState(0);
-
-    //фильмы из api, сохраненные
-    const [savedMovies, setSavedMovies] = useState([]);
-
-    //логин/регистрация
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState({});
-
-    //поиск
-    const [searchStatus, setSearchStatus] = useState("");
-    const [isSearchDone, setIsSearchDone] = useState(false);
-
-    //ошибки логина и регистрации
+    const [countMovies, setCountMovies] = useState(0);
+    const [moreMoviesCard, setMoreMoviesCard] = useState(0);
     const [loginError, setLoginError] = useState("");
     const [registerError, setRegisterError] = useState("");
-
-    //чекбокс
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [currentUser, setCurrentUser] = useState({});
+    const [profileMessage, setProfileMessage] = useState("");
+    const [savedMovies, setSavedMovies] = useState([]);
+    const [searchStatus, setSearchStatus] = useState("");
+    const [isSearchSuccess, setIsSearchSuccess] = useState(false);
     const [request, setRequest] = useState("");
     const [checkboxStatus, setCheckboxStatus] = useState(false);
-
-    //загрузка карточек
     const [loading, setLoading] = useState(false);
-    const [moreLoadingButton, setMoreLoadingButton] = useState(false);
-
-    //profile
-    const [profileMessage, setProfileMessage] = useState("");
-
-    //загрузка карточек
+    const [handleShowMore, sethandleShowMore] = useState(false);
     const width = useCurrentWidth();
-
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-        handleTokenCheck();
+        tokenCheck();
     }, [loggedIn]);
 
     useEffect(() => {
         if (localStorage.getItem("moviesStorage")) {
-            const initialSearch = JSON.parse(localStorage.getItem("moviesStorage"));
-            const searchResult = shortsFilter(initialSearch, request, checkboxStatus);
-
+            const startingSearch = JSON.parse(localStorage.getItem("moviesStorage"));
+            const searchResult = shortsFilter(startingSearch, request, checkboxStatus);
             setFilteredMovies(searchResult);
-            setIsSearchDone(true);
+            setIsSearchSuccess(true);
         }
     }, [checkboxStatus, currentUser, request]);
 
-    //сохраненные фильмы
     useEffect(() => {
         if (loggedIn) {
             mainApi
@@ -106,7 +81,7 @@ function App() {
         }
     }, [currentUser._id, loggedIn]);
 
-    const handleTokenCheck = () => {
+    const tokenCheck = () => {
         const jwt = localStorage.getItem("jwt");
         if (jwt) {
             mainApi
@@ -122,7 +97,6 @@ function App() {
         }
     };
 
-    //регистрация
     function handleRegister(user) {
         mainApi
             .register(user)
@@ -144,10 +118,9 @@ function App() {
             });
     }
 
-    //логин
     function handleLogin(user) {
         return mainApi
-            .authorize(user)
+            .login(user)
             .then((res) => {
                 if (res) {
                     localStorage.setItem("jwt", res.token);
@@ -167,11 +140,10 @@ function App() {
             });
     }
 
-    //  изменить данные профияля
     function handleUpdateUser(user) {
         const token = localStorage.getItem("jwt");
         mainApi
-            .editProfile(user, token)
+            .updateUser(user, token)
             .then((updateUser) => {
                 setLoggedIn(true);
                 setCurrentUser(updateUser);
@@ -194,27 +166,25 @@ function App() {
         console.log(localStorage, "localstorage");
     };
 
-    // Preloader
     function startLoading() {
         setLoading(true);
         setTimeout(() => setLoading(false), 700);
     }
 
-    //поиск фильмов
     function handleSearchMovie(request, checkboxStatus) {
         startLoading();
         setRenderedMovies([]);
         setRequest(request);
         setCheckboxStatus(checkboxStatus);
 
-        const initialMoviesInLocalStorage = JSON.parse(localStorage.getItem("initialMovies"));
+        const moviesInLocalStorage = JSON.parse(localStorage.getItem("initialMovies"));
 
-        if (!initialMoviesInLocalStorage) {
+        if (!moviesInLocalStorage) {
             setLoading(true);
             moviesApi
                 .getMovies()
                 .then((movies) => {
-                    setInitialMovies(movies);
+                    setPrimaryMovies(movies);
                     localStorage.setItem("initialMovies", JSON.stringify(movies));
                 })
                 .catch(() => {
@@ -226,34 +196,30 @@ function App() {
                     setLoading(false);
                 });
         } else {
-            setInitialMovies(initialMoviesInLocalStorage);
+            setPrimaryMovies(moviesInLocalStorage);
         }
     }
 
     useEffect(() => {
-        if (initialMovies.length > 0) {
-            const moviesStorage = shortsFilter(initialMovies, request, checkboxStatus);
-
+        if (primaryMovies.length > 0) {
+            const moviesStorage = shortsFilter(primaryMovies, request, checkboxStatus);
             localStorage.setItem("moviesStorage", JSON.stringify(moviesStorage));
             localStorage.setItem("request", request);
             localStorage.setItem("checkboxStatus", checkboxStatus);
-
             setFilteredMovies(moviesStorage);
-            setIsSearchDone(true);
+            setIsSearchSuccess(true);
         }
-    }, [initialMovies, request, checkboxStatus]);
+    }, [primaryMovies, request, checkboxStatus]);
 
-    //отображение карточек
     useEffect(() => {
         if (renderedMovies.length === filteredMovies.length) {
-            setMoreLoadingButton(false);
+            sethandleShowMore(false);
         }
     }, [renderedMovies, filteredMovies]);
 
-    //сохранить фильм
     function handleSaveMovie(movie) {
         mainApi
-            .saveMovie(movie)
+            .addsaveMovie(movie)
             .then((res) => {
                 const updatedSavedMovies = [...savedMovies, { ...res, id: res.movieId }];
                 setSavedMovies(updatedSavedMovies);
@@ -262,7 +228,6 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    //удалить фильм из библиотеки
     function handleDeleteMovie(movie) {
         mainApi
             .deleteMovie(movie._id)
@@ -275,33 +240,32 @@ function App() {
     }
 
 
-    //показать карточки, если остались еще в хранилище
     useEffect(() => {
-        if (width <= SCREEN_SIZE_MOBILE) {
-            setFirstMovies(INITIAL_MOVIES_MOBILE);
-            setMoreMovies(LOAD_MORE_TABLET_MOBILE);
-        } else if (width <= SCREEN_SIZE_TABLET) {
-            setFirstMovies(INITIAL_MOVIES_TABLET);
-            setMoreMovies(LOAD_MORE_TABLET_MOBILE);
-        } else if (width > SCREEN_SIZE_DESTOP) {
-            setFirstMovies(INITIAL_MOVIES_DESTOP);
-            setMoreMovies(LOAD_MORE_DESKTOP);
+        if (width <= SIZE_MOB) {
+            setCountMovies(MOVIES_MOB);
+            setMoreMoviesCard(LOAD_TAB_MOB);
+        } else if (width <= SIZE_TAB) {
+            setCountMovies(MOVIES_TAB);
+            setMoreMoviesCard(LOAD_TAB_MOB);
+        } else if (width > SIZE_DES) {
+            setCountMovies(MOVIES_DES);
+            setMoreMoviesCard(LOAD_DES);
         }
     }, [width]);
 
     useEffect(() => {
         if (filteredMovies.length > 0) {
-            if (filteredMovies.length > firstMovies) {
-                setRenderedMovies(filteredMovies.slice(0, firstMovies));
-                setMoreLoadingButton(true);
+            if (filteredMovies.length > countMovies) {
+                setRenderedMovies(filteredMovies.slice(0, countMovies));
+                sethandleShowMore(true);
             } else {
                 setRenderedMovies(filteredMovies);
             }
         }
-    }, [filteredMovies, firstMovies]);
+    }, [filteredMovies, countMovies]);
 
     function renderMovies() {
-        setRenderedMovies((previousCount) => filteredMovies.slice(0, previousCount.length + moreMovies));
+        setRenderedMovies((previousCount) => filteredMovies.slice(0, previousCount.length + moreMoviesCard));
     }
 
     return (
@@ -347,15 +311,15 @@ function App() {
                                     <Header loggedIn={loggedIn} />
                                     <Movies
                                         loggedIn={loggedIn}
-                                        onSearch={handleSearchMovie}
+                                        handleSearchSubmit={handleSearchMovie}
                                         loading={loading}
-                                        isSearchDone={isSearchDone}
+                                        isSearchSuccess={isSearchSuccess}
                                         searchStatus={searchStatus}
                                         renderedMovies={renderedMovies}
                                         savedMovies={savedMovies}
-                                        onSaveMovie={handleSaveMovie}
+                                        onAddMovie={handleSaveMovie}
                                         onDeleteMovie={handleDeleteMovie}
-                                        moreLoadingButton={moreLoadingButton}
+                                        handleShowMore={handleShowMore}
                                         onRenderMovies={renderMovies}
                                     />
                                     <Footer />
