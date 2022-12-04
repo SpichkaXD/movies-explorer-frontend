@@ -1,9 +1,8 @@
 export const SHORT_MOVIE = 40;
 
-// export const MAIN_LINK = 'https://api.spichka-diplom.nomoredomains.icu';
-export const MAIN_LINK = 'http://localhost:3100';
+export const MAIN_LINK = 'https://api.spichka-diplom.nomoredomains.icu';
+// export const MAIN_LINK = 'http://localhost:3100';
 export const beatfilmMoviesURL = 'https://api.nomoreparties.co';
-
 
 // Ширина 1280px — 12 карточек по 3 в ряд. Кнопка «Ещё» загружает по 3 карточки.
 // Ширина 768px — 8 карточек по 2 в ряд. Кнопка «Ещё» загружает по 2 карточки.
