@@ -10,4 +10,4 @@ Backend  https://api.spichka-diplom.nomoredomains.icu
 
 Frontend  https://spichka-diplom.nomoredomains.icu
 
-Pull requests https://github.com/SpichkaXD/movies-explorer-frontend/pull/6#issue-1458766606
+Pull requests 
